@@ -1,5 +1,5 @@
 {
-  "name": "hotp",
+  "name": "hotp.js",
   "version": "1.0.0",
   "description": "HOTP/TOTP manager",
   "main": "./dist/hotp.cjs.js",
