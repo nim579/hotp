@@ -1,0 +1,46 @@
+{
+  "name": "hotp",
+  "version": "0.0.0",
+  "description": "HOTP/TOTP manager",
+  "main": "./dist/hotp.cjs.js",
+  "module": "./dist/hotp.es.js",
+  "exports": {
+    ".": {
+      "require": "./dist/hotp.cjs.js",
+      "default": "./dist/hotp.es.js"
+    },
+    "./dist/": "./dist/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c",
+    "prepublishOnly": "npm test && npm run build"
+  },
+  "keywords": [
+    "otp",
+    "hotp",
+    "totp",
+    "oath",
+    "2fa",
+    "tfa",
+    "mfa",
+    "two-factor"
+  ],
+  "author": "Nick Iv",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nim579/hotp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nim579/hotp/issues"
+  },
+  "homepage": "https://github.com/nim579/hotp#readme",
+  "dependencies": {
+    "thirty-two": "^1.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.7.0",
+    "rollup": "^2.64.0"
+  }
+}
