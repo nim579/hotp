@@ -41,7 +41,7 @@ export class TOTP extends OTP {
    * @returns {number}
    */
   getTimeout() {
-    return this.params.period - Math.floor(Date.now() / 1000) % this.params.period;
+    return this.params.period - Math.floor(this._date() / 1000) % this.params.period;
   }
 
   /**
@@ -50,7 +50,15 @@ export class TOTP extends OTP {
    * @returns {number}
    */
   _getOtp() {
-    return Math.floor((Date.now() / 1000) / this.params.period);
+    return Math.floor((this._date() / 1000) / this.params.period);
+  }
+
+  /**
+   * @private
+   * @returns {number}
+   */
+  _date() {
+    return Date.now();
   }
 }
 
@@ -99,6 +107,7 @@ export class HOTP extends OTP {
 export const createOTP = uri => {
   /** @type {OTPParams} */
   const params = typeof uri === 'string' ? parseURI(uri) : uri;
+  if (!params) return null;
 
   if (params.type === 'totp') {
     return new TOTP(params);
