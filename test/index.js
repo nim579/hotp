@@ -38,6 +38,13 @@ describe('module', () => {
       { code: '559234', type: 'totp', issuer: 'iss', account: 'acc', timeout: 19 }
     );
 
+    otp._date = () => 30000;
+    assert.ok(otp.isValid(otp._code(1)));
+    assert.ok(!otp.isValid(otp._code(0)));
+    assert.ok(!otp.isValid(otp._code(2)));
+    assert.ok(otp.isValid(otp._code(0), true));
+    assert.ok(otp.isValid(otp._code(2), true));
+
     assert.equal(
       otp.toString(),
       'otpauth://totp/iss:acc?secret=74%3D%3D%3D%3D%3D%3D&issuer=iss&algorithm=SHA1&digits=6&period=30'
@@ -68,9 +75,19 @@ describe('module', () => {
       { code: '629675', type: 'hotp', issuer: 'iss', account: 'acc', counter: 5 }
     );
 
+    otp.params.counter = 0;
+    assert.ok(otp.isValid(otp._code(1)));
+
+    otp.params.counter = 0;
+    assert.ok(!otp.isValid(otp._code(2)));
+
+    otp.params.counter = 0;
+    assert.ok(otp.isValid(otp._code(2), true));
+
+    otp.params.counter = 1;
     assert.equal(
       otp.toString(),
-      'otpauth://hotp/iss:acc?secret=74%3D%3D%3D%3D%3D%3D&issuer=iss&algorithm=SHA1&digits=6&counter=5'
+      'otpauth://hotp/iss:acc?secret=74%3D%3D%3D%3D%3D%3D&issuer=iss&algorithm=SHA1&digits=6&counter=1'
     );
   });
 

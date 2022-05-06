@@ -55,6 +55,22 @@ export class TOTP extends OTP {
 
   /**
    * @private
+   * @override
+   * @returns {number[]}
+   */
+  _getLaxOtps() {
+    const date = (this._date() / 1000);
+    const period = this.params.period;
+
+    return [
+      Math.floor(date / period),
+      Math.floor((date - period) / period),
+      Math.floor((date + period) / period)
+    ];
+  }
+
+  /**
+   * @private
    * @returns {number}
    */
   _date() {
@@ -96,6 +112,16 @@ export class HOTP extends OTP {
    */
   _getOtp() {
     return this.evalCounter();
+  }
+
+  /**
+   * @private
+   * @override
+   * @returns {number[]}
+   */
+  _getLaxOtps() {
+    const otp = this._getOtp();
+    return [otp, otp + 1];
   }
 }
 

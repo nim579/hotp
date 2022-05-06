@@ -65,4 +65,28 @@ describe('OTP', () => {
     otp = new OTP({ secret: Buffer.from('test'), digits: 4, type: 'totp', issuer: 'iss', account: 'acc', algorithm: 'sha256' });
     assert.equal(otp.toString(), 'otpauth://totp/iss:acc?secret=ORSXG5A%3D&issuer=iss&algorithm=SHA256&digits=4');
   });
+
+  it('isValid() default', () => {
+    let otp;
+
+    otp = new OTP({ secret: Buffer.from('test') });
+    assert.ok(otp.isValid(otp._code(0)));
+    assert.ok(!otp.isValid(otp._code(1)));
+
+    otp = new OTP({ secret: Buffer.from('test'), digits: 4, type: 'hotp', issuer: 'iss', account: 'acc' });
+    assert.ok(otp.isValid(otp._code(0)));
+    assert.ok(!otp.isValid(otp._code(1)));
+  });
+
+  it('isValid() lax', () => {
+    let otp;
+
+    otp = new OTP({ secret: Buffer.from('test') });
+    assert.ok(otp.isValid(otp._code(0), true));
+    assert.ok(otp.isValid(otp._code(1), true));
+
+    otp = new OTP({ secret: Buffer.from('test'), digits: 4, type: 'hotp', issuer: 'iss', account: 'acc' });
+    assert.ok(otp.isValid(otp._code(0), true));
+    assert.ok(otp.isValid(otp._code(1), true));
+  });
 });

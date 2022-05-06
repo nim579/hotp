@@ -21,6 +21,13 @@ otp.get();
 otp.getCode();
 // 123456
 
+otp.isValid('123456')
+// true
+
+// Lax mode. Also validates neighbours (±1) counter or timer of OTP factor
+otp.isValid('654321', true)
+// true
+
 otp.toString();
 // otpauth://totp/ACME%20Co:john@example.com?secret=HXDMVJECJJWSRB3HWIZR4IFUGFTMXBOZ&issuer=ACME%20Co&algorithm=SHA1&digits=6&period=30
 ```
